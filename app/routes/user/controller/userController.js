@@ -1,4 +1,4 @@
-const userService = require('./userService')
+const userService = require('../service/userService')
 
 function getAllUser(req, res) {
     let users = userService.getAllUser();
@@ -12,7 +12,11 @@ function getUser(req, res) {
 }
 
 function createUser(req, res) {
-    userService.createUser()
+    let username = req.body.username
+    let password = req.body.password
+    if (!username) throw new Error('Username password cannot be empty')
+    if (!password) throw new Error('password cannot be empty')
+    userService.createUser(username,password)
     res.status(200).json({ "status": "create users" })
 }
 

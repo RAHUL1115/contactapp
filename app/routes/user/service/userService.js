@@ -1,6 +1,6 @@
-const User = require('../../view/user')
-const Contact = require('../../view/contact')
-const ContactInfo = require('../../view/contactinfo')
+const User = require('../../../view/user')
+const Contact = require('../../../view/contact')
+const ContactInfo = require('../../../view/contactinfo')
 
 function getAllUser() {
     return User.getAll();
@@ -21,8 +21,8 @@ function getUser(id) {
     return user
 }
 
-function createUser() {
-    let user = new User('rahul',"123")
+function createUser(username,password) {
+    let user = new User(username, password)
     user.create();
 }
 

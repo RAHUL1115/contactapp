@@ -1,4 +1,4 @@
-const contactInfoController = require('./contactinfoService')
+const contactInfoController = require('../service/contactinfoService')
 
 function getAllContactinfo(req, res) {
     let contactId = req.params.contactId
@@ -14,7 +14,9 @@ function getContactinfo(req, res){
 
 function createContactinfo(req, res) {
     let contactId = req.params.contactId
-    contactInfoController.createContactInfo(contactId)
+    let number = req.body.number;
+    if (!number) throw new Error('number cannot be empty')
+    contactInfoController.createContactInfo(contactId, number)
     res.status(200).json({ "status": "create Contactinfo" })
 }
 

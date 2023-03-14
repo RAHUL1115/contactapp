@@ -3,7 +3,7 @@ const {
     getAllContactinfo,
     getContactinfo,
     createContactinfo,
-} = require('./contactinfoController')
+} = require('./controller/contactinfoController')
 
 const contactinfo = Router({ mergeParams: true });
 

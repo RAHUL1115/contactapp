@@ -1,4 +1,4 @@
-const contactService = require('./contactService')
+const contactService = require('../service/contactService')
 
 function getAllContact(req, res) {
     let userId = req.params.userId
@@ -14,7 +14,9 @@ function getContact(req, res) {
 
 function createContact(req, res) {
     let userId = req.params.userId
-    contactService.createUserContact(userId)
+    let name = req.body.name
+    if (!name) throw new Error('name cannot be empty')
+    contactService.createUserContact(userId,name)
     res.status(200).json({ "status": "create Contacts" })
 }
 
