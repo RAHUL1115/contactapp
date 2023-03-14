@@ -1,7 +1,14 @@
+const _ = require('lodash');
 const { v4: uuidv4 } = require('uuid');
 
 class User{
-    static users = []
+    static users = [
+        {
+            "username": "rahul",
+            "password": "123",
+            "id": "b1b84f98-6157-4afc-a67e-622407d25a99"
+        }
+    ]
 
     constructor(username,password){
         this.username = username
@@ -17,20 +24,15 @@ class User{
         User.users.push(this)
     }
 
-    update(id) {
-        return User.users
-    }
-
     static getAll(){
         return User.users
     }
 
     static get(id) {
-        return User.users
-    }
-
-    static delete(id) {
-        return User.users
+        let user = _.find(User.users, (user)=> {
+            if (user.id == id) return true;
+        });
+        return user
     }
 }
 

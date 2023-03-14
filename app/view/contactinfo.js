@@ -1,36 +1,41 @@
+const _ = require('lodash');
 const { v4: uuidv4 } = require('uuid');
 
 class ContactInfo {
-    static contactinfos = []
+    static contactinfos = [
+        {
+            "contactId": "f7ee7780-30b3-48a0-8479-df52f24d7719",
+            "number": "917021091055",
+            "id": "12e93c55-0248-47a7-8056-deac3d729a4a"
+        }
+    ]
 
-    constructor(username, password) {
-        this.username = username
-        this.password = password
+    constructor(contactId,number) {
+        this.contactId = contactId
+        this.number = number
     }
 
     createId() {
         this.id = uuidv4()
     }
 
-    createOne() {
+    create() {
         this.createId()
-        users.push(JSON.parse(this))
+        ContactInfo.contactinfos.push(this)
     }
 
-    updateOne(id) {
-        return users
+    static getAll(contactId) {
+        let contactInfos = _.filter(ContactInfo.contactinfos, (contactinfo) => {
+            if (contactinfo.contactId == contactId) return true;
+        });
+        return contactInfos
     }
 
-    static getAll() {
-        return users
-    }
-
-    static getOne(id) {
-        return users
-    }
-
-    static delete(id) {
-        return users
+    static get(id) {
+        let contactInfo = _.find(ContactInfo.contactinfos, (contactinfo) => {
+            if (contactinfo.id == id) return true;
+        });
+        return contactInfo
     }
 }
 

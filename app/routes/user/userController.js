@@ -6,7 +6,9 @@ function getAllUser(req, res) {
 }
 
 function getUser(req, res) {
-    res.status(200).json({ "status": "get user" })
+    let id = req.params.id
+    let user = userService.getUser(id);
+    res.status(200).json(user)
 }
 
 function createUser(req, res) {
@@ -14,18 +16,8 @@ function createUser(req, res) {
     res.status(200).json({ "status": "create users" })
 }
 
-function updateUser(req, res) {
-    res.status(200).json({ "status": "update users" })
-}
-
-function deleteUser(req, res) {
-    res.status(200).json({ "status": "delete users" })
-}
-
 module.exports = {
     getAllUser,
     getUser,
     createUser,
-    updateUser,
-    deleteUser
 }

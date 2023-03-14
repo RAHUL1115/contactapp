@@ -1,29 +1,25 @@
+const contactService = require('./contactService')
+
 function getAllContact(req, res) {
-    let { userId } = req.params
-    console.log(req.params);
-    res.status(200).json({ "status": "get all Contacts " + userId })
+    let userId = req.params.userId
+    let userContacts = contactService.getAllUserContact(userId)
+    res.status(200).json(userContacts)
 }
 
 function getContact(req, res) {
-    res.status(200).json({ "status": "get Contact" })
+    let id = req.params.id
+    let userContacts = contactService.getUserContact(id)
+    res.status(200).json(userContacts)
 }
 
 function createContact(req, res) {
+    let userId = req.params.userId
+    contactService.createUserContact(userId)
     res.status(200).json({ "status": "create Contacts" })
-}
-
-function updateContact(req, res) {
-    res.status(200).json({ "status": "update Contacts" })
-}
-
-function deleteContact(req, res) {
-    res.status(200).json({ "status": "delete Contacts" })
 }
 
 module.exports = {
     getAllContact,
     getContact,
     createContact,
-    updateContact,
-    deleteContact
 }

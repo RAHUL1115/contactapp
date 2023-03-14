@@ -1,15 +1,23 @@
+const User = require('../../view/user')
 const Contact = require('../../view/contact')
 
-function getAllUser() {
-    return Contact.getAll();
+function getAllUserContact(userId) {
+    return Contact.getAll(userId);
 }
 
-function createUser() {
-    let user = new Contact('rahul', "123")
-    user.create();
+function getUserContact(id) {
+    return Contact.get(id);
+}
+
+function createUserContact(userId) {
+    let user = User.get(userId)
+    if (user?.id != userId) throw new Error("User not in system")
+    let contact = new Contact(userId, "home")
+    contact.create();
 }
 
 module.exports = {
-    getAllUser,
-    createUser
+    getAllUserContact,
+    getUserContact,
+    createUserContact
 }

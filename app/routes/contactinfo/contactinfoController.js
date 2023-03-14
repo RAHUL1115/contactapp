@@ -1,27 +1,27 @@
+const contactInfoController = require('./contactinfoService')
+
 function getAllContactinfo(req, res) {
-    res.status(200).json({ "status": "get all Contactinfos" })
+    let contactId = req.params.contactId
+    let contactInfo = contactInfoController.getAllContactInfo(contactId)
+    res.status(200).json(contactInfo)
 }
 
-function getContactinfo(req, res) {
-    res.status(200).json({ "status": "get Contactinfo" })
+function getContactinfo(req, res){
+    let id = req.params.id
+    let contactInfo = contactInfoController.getContactInfo(id)
+    res.status(200).json(contactInfo)
 }
 
 function createContactinfo(req, res) {
-    res.status(200).json({ "status": "create Contactinfos" })
+    let contactId = req.params.contactId
+    contactInfoController.createContactInfo(contactId)
+    res.status(200).json({ "status": "create Contactinfo" })
 }
 
-function updateContactinfo(req, res) {
-    res.status(200).json({ "status": "update Contactinfos" })
-}
 
-function deleteContactinfo(req, res) {
-    res.status(200).json({ "status": "delete Contactinfos" })
-}
 
 module.exports = {
     getAllContactinfo,
     getContactinfo,
     createContactinfo,
-    updateContactinfo,
-    deleteContactinfo
 }

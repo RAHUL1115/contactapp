@@ -7,6 +7,6 @@ const routes = Router();
 
 routes.use('/user', user)
 routes.use('/:userId/contact', contact)
-routes.use('/contactinfo', contactinfo)
+routes.use('/:contactId/contactinfo', contactinfo)
 
 module.exports = routes

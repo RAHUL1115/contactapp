@@ -3,16 +3,12 @@ const {
     getAllContactinfo,
     getContactinfo,
     createContactinfo,
-    updateContactinfo,
-    deleteContactinfo
 } = require('./contactinfoController')
 
-const contactinfo = Router();
+const contactinfo = Router({ mergeParams: true });
 
 contactinfo.get('/', getAllContactinfo)
 contactinfo.get('/:id', getContactinfo)
 contactinfo.post('/', createContactinfo)
-contactinfo.put('/:id', updateContactinfo)
-contactinfo.delete('/:id', deleteContactinfo)
 
 module.exports = contactinfo
