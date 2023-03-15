@@ -1,3 +1,4 @@
+const { BadRequest } = require('../../../error');
 const Contact = require('../../../view/contact')
 const ContactInfo = require('../../../view/contactinfo')
 
@@ -11,7 +12,7 @@ function getContactInfo(id) {
 
 function createContactInfo(contactId,number) {
     let contact = Contact.get(contactId)
-    if (contact?.id != contactId) throw new Error("Contact id not in system")
+    if (contact?.id != contactId) throw new BadRequest("Contact id not in system")
     let contactInfo = new ContactInfo(contactId, number)
     contactInfo.create();
 }

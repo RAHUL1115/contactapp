@@ -1,4 +1,5 @@
 const contactService = require('../service/contactService')
+const { BadRequest } = require('../../../error')
 
 function getAllContact(req, res) {
     let userId = req.params.userId
@@ -12,12 +13,16 @@ function getContact(req, res) {
     res.status(200).json(userContacts)
 }
 
-function createContact(req, res) {
-    let userId = req.params.userId
-    let name = req.body.name
-    if (!name) throw new Error('name cannot be empty')
-    contactService.createUserContact(userId,name)
-    res.status(200).json({ "status": "create Contacts" })
+function createContact(req, res, next) {
+    try {
+        let userId = req.params.userId
+        let name = req.body.name
+        if (!name) throw new BadRequest('name cannot be empty')
+        contactService.createUserContact(userId, name)
+        res.status(200).json({ "status": "create Contacts" })   
+    } catch (error) {
+        next(error)
+    }
 }
 
 module.exports = {

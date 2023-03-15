@@ -1,6 +1,8 @@
 const User = require('../../../view/user')
 const Contact = require('../../../view/contact')
-const ContactInfo = require('../../../view/contactinfo')
+const ContactInfo = require('../../../view/contactinfo');
+const { BadRequest, UnauthorizedRequest } = require('../../../error');
+const Jwt = require('../../../middleware/jwt')
 
 function getAllUser() {
     return User.getAll();
@@ -22,12 +24,33 @@ function getUser(id) {
 }
 
 function createUser(username,password) {
+    let existingUser = User.getByUserName(username);
+    if (existingUser) {
+        throw new BadRequest('User already exists');
+    }
     let user = new User(username, password)
     user.create();
 }
 
+function login(username, password) {
+    let existingUser = User.getByUserName(username);
+    if (!existingUser) {
+        throw new UnauthorizedRequest('User dose not exists');
+    }
+    
+    if (existingUser.username == username && existingUser.password == password){
+        let jwt = new Jwt(existingUser.username)
+        return jwt.generateToken();
+    }
+
+    throw new UnauthorizedRequest('Invalid credentials');
+}
+
+
+
 module.exports = {
     getAllUser,
     getUser,
-    createUser
+    createUser,
+    login
 }

@@ -34,6 +34,13 @@ class User{
         });
         return user
     }
+
+    static getByUserName(username) {
+        let user = _.find(User.users, (user) => {
+            if (user.username == username) return true;
+        });
+        return user
+    }
 }
 
 module.exports = User;

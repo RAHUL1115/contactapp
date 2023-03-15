@@ -1,5 +1,6 @@
 const User = require('../../../view/user')
-const Contact = require('../../../view/contact')
+const Contact = require('../../../view/contact');
+const { BadRequest } = require('../../../error');
 
 function getAllUserContact(userId) {
     return Contact.getAll(userId);
@@ -11,7 +12,7 @@ function getUserContact(id) {
 
 function createUserContact(userId,name) {
     let user = User.get(userId)
-    if (user?.id != userId) throw new Error("User not in system")
+    if (user?.id != userId) throw new BadRequest("User not in system")
     let contact = new Contact(userId, name)
     contact.create();
 }

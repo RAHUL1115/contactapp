@@ -3,8 +3,7 @@ const {
     getAllUser,
     getUser,
     createUser,
-    updateUser,
-    deleteUser
+    login
 } = require('./controller/userController')
 
 const user = Router();
@@ -12,5 +11,6 @@ const user = Router();
 user.get('/', getAllUser)
 user.get('/:id', getUser)
 user.post('/', createUser)
+user.post('/login', login)
 
 module.exports = user

@@ -1,3 +1,4 @@
+const { BadRequest } = require('../../../error');
 const userService = require('../service/userService')
 
 function getAllUser(req, res) {
@@ -11,17 +12,35 @@ function getUser(req, res) {
     res.status(200).json(user)
 }
 
-function createUser(req, res) {
-    let username = req.body.username
-    let password = req.body.password
-    if (!username) throw new Error('Username password cannot be empty')
-    if (!password) throw new Error('password cannot be empty')
-    userService.createUser(username,password)
-    res.status(200).json({ "status": "create users" })
+function createUser(req, res,next) {
+    try {
+        let username = req.body.username
+        let password = req.body.password
+        if (!username) throw new BadRequest('Username password cannot be empty')
+        if (!password) throw new BadRequest('password cannot be empty')
+        userService.createUser(username, password)
+        res.status(200).json({ "status": "create users" })  
+    } catch (error) {
+        next(error)
+    }
+}
+
+function login(req,res,next){
+    try {
+        let username = req.body.username
+        let password = req.body.password
+        if (!username) throw new BadRequest('Username password cannot be empty')
+        if (!password) throw new BadRequest('password cannot be empty')
+        let token = userService.login(username, password)
+        res.status(200).json({ "status": "login", token: token })  
+    } catch (error) {
+        next(error)
+    }
 }
 
 module.exports = {
     getAllUser,
     getUser,
     createUser,
+    login
 }
