@@ -32,6 +32,7 @@ function login(req,res,next){
         if (!username) throw new BadRequest('Username password cannot be empty')
         if (!password) throw new BadRequest('password cannot be empty')
         let token = userService.login(username, password)
+        res.cookie('auth', token)
         res.status(200).json({ "status": "login", token: token })  
     } catch (error) {
         next(error)

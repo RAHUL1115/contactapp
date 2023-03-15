@@ -8,9 +8,9 @@ const {
 
 const user = Router();
 
+user.post('/login', login)
 user.get('/', getAllUser)
 user.get('/:id', getUser)
 user.post('/', createUser)
-user.post('/login', login)
 
 module.exports = user

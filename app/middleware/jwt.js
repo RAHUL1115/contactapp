@@ -29,7 +29,7 @@ class JwtToken {
             let decode = jwt.verify(cookie['authorization'], process.env.JWT_SECRET)
             next()
         } catch (error) {
-            throw UnauthorizedRequest("Session expired. Please login again")
+            throw new UnauthorizedRequest("Session expired. Please login again")
         }
     }
 
