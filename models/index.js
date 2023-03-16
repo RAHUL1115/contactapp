@@ -15,13 +15,9 @@ if (config.use_env_variable) {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
-let user = require('./user')(sequelize, Sequelize.DataTypes);
-let contact = require('./contact')(sequelize, Sequelize.DataTypes);
-let contactinfo = require('./contactinfo')(sequelize, Sequelize.DataTypes);
-
-db.User = user
-db.Contact = contact
-db.ContactInfo = contactinfo
+db.User = require('./user')(sequelize, Sequelize.DataTypes)
+db.Contact = require('./contact')(sequelize, Sequelize.DataTypes);
+db.ContactInfo = require('./contactinfo')(sequelize, Sequelize.DataTypes);
 
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
