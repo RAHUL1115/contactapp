@@ -1,4 +1,4 @@
-const {BadRequest} = require("../error");
+const {BadRequest} = require("../../../utils/error");
 
 function errorHandler(err,req,res,next){
     console.log('app/middleware/errorhandler.js','4',err);

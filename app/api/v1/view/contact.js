@@ -1,3 +1,5 @@
+const db = require('../../../../models/index');
+
 const _ = require('lodash');
 const { v4: uuidv4 } = require('uuid');
 
@@ -19,23 +21,21 @@ class Contact {
         this.id = uuidv4()
     }
 
-    create() {
+    async create() {
         this.createId()
-        Contact.contacts.push(this)
+        let data = await db.Contact.create(this)
+        console.log(data);
     }
 
-    static getAll(userId) {
-        let contacts = _.filter(Contact.contacts, (contact) => {
-            if (contact.userId == userId) return true;
-        });
-        return contacts
+    static async getAll(userId) {
+        let contacts = await db.Contact.findAll({ where: { userId: userId } });
+        console.log('app/api/v1/view/contact.js','33',contacts);
+        return contacts;
     }
 
-    static get(id) {
-        let contacts = _.find(Contact.contacts, (contact) => {
-            if (contact.id == id) return true;
-        });
-        return contacts
+    static async get(id) {
+        let contact = await db.Contact.findByPk(id);
+        return contact.toJSON();
     }
 }
 

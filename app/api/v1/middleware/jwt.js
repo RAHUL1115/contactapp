@@ -1,6 +1,6 @@
 require("dotenv").config()
 const jwt = require("jsonwebtoken")
-const { UnauthorizedRequest } = require("../error")
+const { UnauthorizedRequest } = require("../../../utils/error")
 
 class JwtToken {
     constructor(username) {
@@ -26,7 +26,7 @@ class JwtToken {
         }
 
         try {
-            let decode = jwt.verify(cookie['authorization'], process.env.JWT_SECRET)
+            let decode = jwt.verify(cookie['auth'], process.env.JWT_SECRET)
             next()
         } catch (error) {
             throw new UnauthorizedRequest("Session expired. Please login again")

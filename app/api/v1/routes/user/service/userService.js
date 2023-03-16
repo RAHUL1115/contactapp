@@ -1,30 +1,21 @@
 const User = require('../../../view/user')
 const Contact = require('../../../view/contact')
 const ContactInfo = require('../../../view/contactinfo');
-const { BadRequest, UnauthorizedRequest } = require('../../../error');
+const { BadRequest, UnauthorizedRequest } = require('../../../../../utils/error');
 const Jwt = require('../../../middleware/jwt')
 
-function getAllUser() {
-    return User.getAll();
+async function getAllUser() {
+    let data = await User.getAll();
+    return data
 }
 
-function getUser(id) {
-    let user = User.get(id);
-
-    // this is to make nested data
-    let userContacts = Contact.getAll(id)
-    userContacts.map(userContect=>{
-        let contactInfo = ContactInfo.getAll(userContect.id)
-        userContect.info = contactInfo
-        return contactInfo
-    });
-    user.contact = userContacts;
-
+async function getUser(id) {
+    let user = await User.get(id);
     return user
 }
 
-function createUser(username,password) {
-    let existingUser = User.getByUserName(username);
+async function createUser(username,password) {
+    let existingUser = await User.getByUserName(username);
     if (existingUser) {
         throw new BadRequest('User already exists');
     }
@@ -32,8 +23,8 @@ function createUser(username,password) {
     user.create();
 }
 
-function login(username, password) {
-    let existingUser = User.getByUserName(username);
+async function login(username, password) {
+    let existingUser = await User.getByUserName(username);
     if (!existingUser) {
         throw new UnauthorizedRequest('User dose not exists');
     }
