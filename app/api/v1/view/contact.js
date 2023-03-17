@@ -21,21 +21,31 @@ class Contact {
         this.id = uuidv4()
     }
 
+    setId(id) {
+        this.id = id;
+    }
+
+    async update() {
+        return await db.Contact.update(this,{where: {id:this.id}})
+    }
+
     async create() {
         this.createId()
-        let data = await db.Contact.create(this)
-        console.log(data);
+        return await db.Contact.create(this)
     }
 
     static async getAll(userId) {
         let contacts = await db.Contact.findAll({ where: { userId: userId } });
-        console.log('app/api/v1/view/contact.js','33',contacts);
         return contacts;
     }
 
     static async get(id) {
         let contact = await db.Contact.findByPk(id);
         return contact.toJSON();
+    }
+
+    static async delete(id) {
+        return await db.Contact.destroy({where:{id:id}})
     }
 }
 

@@ -12,9 +12,17 @@ class User{
         this.id = uuidv4()
     }
 
-    create() {
+    setId(id){
+        this.id = id;
+    }
+
+    async create() {
         this.createId()
-        db.User.create(this)
+        return await db.User.create(this)
+    }
+
+    async update() {
+        return await db.User.update(this, {where: {id: this.id}})
     }
 
     static async getAll(){
@@ -31,12 +39,26 @@ class User{
                 }
             }
         })
-        return user.toJSON()
+        if(user){
+            return user.toJSON()
+        }else{
+            throw new Error("No user details found for userid")
+        }
     }
 
     static async getByUserName(username) {
-        let user = await db.User.findOne({where : {username:username}})
+        let user = await db.User.findOne({ where: { username: username } })
         return user
+    }
+    
+    static async getDeletedByUsername(username) {
+        let user = await db.User.findOne({ where: { username: username }, paranoid: false })
+        return user
+    }
+
+    static async delete(id) {
+        let alluser = await db.User.destroy({where : {id:id,}});
+        return alluser;
     }
 }
 

@@ -1,24 +1,59 @@
-const { BadRequest } = require('../../../../../utils/error');
-const Contact = require('../../../view/contact')
+const sequelize = require('../../../../../db/models').sequelize;
 const ContactInfo = require('../../../view/contactinfo')
 
 async function getAllContactInfo(contactId) {
-    return await ContactInfo.getAll(contactId);
+    let result = ContactInfo.getAll(contactId);
+    return result;
 }
 
 async function getContactInfo(id) {
-    return await ContactInfo.get(id);
+    let result = await ContactInfo.get(id);
+    return result;
 }
 
-async function createContactInfo(contactId, data, type) {
-    let contact = await Contact.get(contactId)
-    if (contact?.id != contactId) throw new BadRequest("Contact id not in system")
-    let contactInfo = new ContactInfo(contactId, data, type)
-    return await contactInfo.create();
+async function createContactInfo(id, contactId, data, type) {
+    const t = await sequelize.transaction();
+    try {
+        let contactInfo = new ContactInfo(contactId, data, type)
+        let result = await contactInfo.create(t);
+        t.commit();
+        return result;
+    } catch (error) {
+        t.rollback();
+        throw error;
+    }
+}
+
+async function updateContactInfo(id, contactId, data, type) {
+    const t = await sequelize.transaction();
+    try {
+        let contactInfo = new ContactInfo(contactId, data, type)
+        contactInfo.setId(id);
+        let result = await contactInfo.update(t);
+        t.commit();
+        return result;
+    } catch (error) {
+        t.rollback();
+        throw error;
+    }
+}
+
+async function deleteContactInfo(id) {
+    const t = await db.sequelize.transaction();
+    try {
+        let result = await ContactInfo.delete(t,id);
+        t.commit();
+        return result
+    } catch (error) {
+        t.rollback();
+        throw error        
+    }
 }
 
 module.exports = {
     getAllContactInfo,
     getContactInfo,
-    createContactInfo
+    createContactInfo,
+    updateContactInfo,
+    deleteContactInfo,
 }

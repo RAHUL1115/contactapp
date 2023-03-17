@@ -23,12 +23,20 @@ class ContactInfo {
         this.id = uuidv4()
     }
 
-    async create() {
-        this.createId()
-        return await db.ContactInfo.create(this)
+    setId(id) {
+        this.id = id;
     }
 
-    static async getAll(contactId) {
+    async update(t) {
+        return await db.ContactInfo.update(this, { where: { id: this.id }, transaction: t });
+    }
+
+    async create(t) {
+        this.createId()
+        return await db.ContactInfo.create(this, { transaction: t })
+    }
+
+    static async getAll() {
         let contactInfos = await db.ContactInfo.findAll()
         return contactInfos
     }
@@ -36,6 +44,10 @@ class ContactInfo {
     static async get(id) {
         let contactInfo = await db.ContactInfo.findByPk(id)
         return contactInfo.toJSON();
+    }
+
+    static async delete(t,id){
+        return await db.ContactInfo.destroy({where: {id: id}, transaction : t})
     }
 }
 
